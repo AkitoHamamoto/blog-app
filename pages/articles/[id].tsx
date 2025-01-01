@@ -30,9 +30,12 @@ const ArticleDetailPage: NextPage<Props> = ({ article, isAdmin }) => {
       }
       alert('削除に成功しました');
       router.push('/');
-    } catch (err: any) {
-      console.error(err);
-      alert(`削除に失敗しました: ${err.message}`);
+    } catch (err: unknown) {
+      let errorMsg = 'Unknown error';
+      if (err instanceof Error) {
+        errorMsg = err.message;
+      }
+      alert(`削除に失敗しました: ${errorMsg}`);
     }
   };
 

@@ -22,8 +22,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(404).json({ error: 'Not found' });
       }
       return res.status(200).json({ article: data });
-    } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+    } catch (err: unknown) {
+      let errorMsg = 'Unknown error';
+      if (err instanceof Error) {
+        errorMsg = err.message;
+      }
+      return res.status(500).json({ error: errorMsg });
     }
   }
 
@@ -48,8 +52,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         .single();
       if (error) throw error;
       return res.status(200).json({ article: data });
-    } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+    } catch (err: unknown) {
+      let errorMsg = 'Unknown error';
+      if (err instanceof Error) {
+        errorMsg = err.message;
+      }
+      return res.status(500).json({ error: errorMsg });
     }
   }
 
@@ -59,15 +67,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(403).json({ error: 'Forbidden' });
     }
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('articles')
         .delete()
         .eq('id', id)
         .single();
       if (error) throw error;
       return res.status(200).json({ message: 'Deleted successfully' });
-    } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+    } catch (err: unknown) {
+      let errorMsg = 'Unknown error';
+      if (err instanceof Error) {
+        errorMsg = err.message;
+      }
+      return res.status(500).json({ error: errorMsg });
     }
   }
 

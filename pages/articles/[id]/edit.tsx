@@ -29,9 +29,12 @@ const EditPage: NextPage<Props> = ({ article }) => {
       }
       // 成功 → 詳細ページに戻る
       router.push(`/articles/${article.id}`);
-    } catch (err: any) {
-      console.error(err);
-      alert(`更新に失敗しました: ${err.message}`);
+    } catch (err: unknown) {
+      let errorMsg = 'Unknown error';
+      if (err instanceof Error) {
+        errorMsg = err.message;
+      }
+      alert(`更新に失敗しました: ${errorMsg}`);
     }
   };
 

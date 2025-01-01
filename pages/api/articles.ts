@@ -19,9 +19,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (error) throw error;
 
       return res.status(200).json({ article: data });
-    } catch (err: any) {
-      console.error(err);
-      return res.status(500).json({ error: err.message });
+    } catch (err: unknown) {
+      let errorMsg = 'Unknown error';
+      if (err instanceof Error) {
+        errorMsg = err.message;
+      }
+      return res.status(500).json({ error: errorMsg });
     }
   } else {
     // POST以外は許可しない
