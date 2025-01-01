@@ -1,0 +1,190 @@
+/* Reset / Normalize  -------------------------------------------------- */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  font: inherit;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+/* Basic reset */
+* {
+  box-sizing: border-box;
+}
+
+/* Base font  -------------------------------------------------- */
+html {
+  font-size: 16px;
+  line-height: 1.5;
+  /* ページの背景色を柔らかいオフホワイト系に */
+  background-color: #f9f8f6;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* Typography for poem content  -------------------------------- */
+.poem-content {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  white-space: pre-line;
+  /* 改行を反映させるなら */
+}
+
+/* Layout wrapper  -------------------------------------------------- */
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Headings  -------------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Inter', sans-serif;
+  color: #111;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+/* Buttons & Links  -------------------------------------------------- */
+a {
+  color: #1a73e8;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  background-color: #1a73e8;
+  color: #fff;
+  border: none;
+  padding: 0.6em 1.2em;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* Inputs, Textareas  ------------------------------------------------ */
+input,
+textarea {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.5em;
+  margin: 0.4em 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+/* Additional spacing  ------------------------------------------------ */
+.mb-16 {
+  margin-bottom: 16px;
+}
+
+.mt-16 {
+  margin-top: 16px;
+}
