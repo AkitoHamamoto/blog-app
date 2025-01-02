@@ -6,9 +6,9 @@ class MyDocument extends Document {
     return (
       <Html lang="ja">
         <Head>
-          {/* Google Fonts 読み込み例: EB Garamond + Inter */}
+          {/* Google Fonts: Zen Maru Gothic */}
           <link
-            href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=Inter:wght@400;600&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap"
             rel="stylesheet"
           />
         </Head>

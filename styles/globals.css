@@ -106,19 +106,20 @@ html {
   font-size: 16px;
   line-height: 1.5;
   /* ページの背景色を柔らかいオフホワイト系に */
-  background-color: #f9f8f6;
+  background: #f9f8f6 url('/images/paper-texture.png') repeat;
 }
 
 body {
-  font-family: 'Inter', system-ui, sans-serif;
-  color: #333;
   margin: 0;
   padding: 0;
+  font-family: 'Zen Maru Gothic', system-ui, sans-serif;
+  background: #f9f8f6 url('/images/paper-texture.png') repeat;
+  color: #333;
 }
 
 /* Typography for poem content  -------------------------------- */
 .poem-content {
-  font-family: 'EB Garamond', serif;
+  font-family: 'Zen Maru Gothic', serif;
   font-size: 1.125rem;
   line-height: 1.8;
   white-space: pre-line;
@@ -127,7 +128,7 @@ body {
 
 /* Layout wrapper  -------------------------------------------------- */
 .container {
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 24px;
 }
@@ -139,20 +140,46 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Zen Maru Gothic', serif;
   color: #111;
   margin-bottom: 16px;
   font-weight: 600;
 }
 
+/* ヘッダーセクション */
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.header h1 {
+  font-family: 'Zen Kurenaido', sans-serif;
+  font-size: 2.5rem;
+  color: #3b3b3b;
+  margin-bottom: 8px;
+}
+
+.header p {
+  font-size: 1.2rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* 管理者ボタン */
+.admin-controls {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
 /* Buttons & Links  -------------------------------------------------- */
 a {
-  color: #1a73e8;
+  color: inherit;
   text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
+  text-decoration: none;
+  /* color: #1a73e8; */
 }
 
 button {
@@ -187,4 +214,82 @@ textarea {
 
 .mt-16 {
   margin-top: 16px;
+}
+
+/* 作品一覧 */
+.articles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.article-card {
+  padding: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.article-card h2 {
+  margin-bottom: 0.5rem;
+  /* color: #5a3e85; */
+  /* アクセントカラー */
+}
+
+.article-card .date {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.article-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* プロフィールセクション */
+.profile {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 8px;
+}
+
+.profile-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  /* color: #5a3e85; */
+  margin-bottom: 8px;
+}
+
+.profile-bio {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+}
+
+/* 詩がない場合のメッセージ */
+.no-articles {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #888;
+  margin-top: 48px;
+  font-style: italic;
+}
+
+/* フッター */
+.footer {
+  text-align: center;
+  margin-top: 48px;
+  font-size: 0.9rem;
+  color: #888;
 }

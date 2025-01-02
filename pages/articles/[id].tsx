@@ -43,7 +43,9 @@ const ArticleDetailPage: NextPage<Props> = ({ article, isAdmin }) => {
     <div className="container">
       <h1 style={{ marginBottom: '8px' }}>{article.title}</h1>
       <div style={{ fontSize: '0.9rem', color: '#666', marginBottom: '16px' }}>
-        {new Date(article.created_at).toLocaleString()}
+        {new Date(article.created_at).toLocaleString('ja-JP', {
+          timeZone: 'Asia/Tokyo',
+        })}
       </div>
       <div className="poem-content">{article.content}</div>
 
