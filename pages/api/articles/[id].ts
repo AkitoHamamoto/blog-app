@@ -36,21 +36,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!isAdmin) {
       return res.status(403).json({ error: 'Forbidden' });
     }
-    const { title, content } = req.body;
-    if (!title || !content) {
-      return res.status(400).json({ error: 'title and content are required' });
+
+    const { title, title_kana, content } = req.body;
+    if (!title || !title_kana || !content) {
+      return res.status(400).json({ error: 'title, title_kana, and content are required' });
     }
+
     try {
       const { data, error } = await supabase
         .from('articles')
         .update({
           title,
+          title_kana,
           content,
           updated_at: new Date().toISOString(),
         })
         .eq('id', id)
         .single();
+
       if (error) throw error;
+
       return res.status(200).json({ article: data });
     } catch (err: unknown) {
       let errorMsg = 'Unknown error';
@@ -66,6 +71,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!isAdmin) {
       return res.status(403).json({ error: 'Forbidden' });
     }
+
     try {
       const { error } = await supabase
         .from('articles')
@@ -73,6 +79,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         .eq('id', id)
         .single();
       if (error) throw error;
+
       return res.status(200).json({ message: 'Deleted successfully' });
     } catch (err: unknown) {
       let errorMsg = 'Unknown error';

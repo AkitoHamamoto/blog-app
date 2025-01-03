@@ -3,6 +3,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { supabase } from '../../lib/supabaseClient';
 import { Article } from '../../types/article';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 type Props = {
   article: Article | null;
@@ -49,20 +50,21 @@ const ArticleDetailPage: NextPage<Props> = ({ article, isAdmin }) => {
       </div>
       <div className="poem-content">{article.content}</div>
 
-      {/* 管理者だけ編集・削除ボタン表示 */}
-      {isAdmin && (
-        <div style={{ marginTop: '16px' }}>
-          <button
-            onClick={() => router.push(`/articles/${article.id}/edit`)}
-            style={{ marginRight: '8px' }}
-          >
-            編集
-          </button>
-          <button onClick={handleDelete} style={{ backgroundColor: '#c9302c' }}>
-            削除
-          </button>
-        </div>
-      )}
+      <footer className="footer">
+        {/* 管理者だけ編集・削除ボタン表示 */}
+        {isAdmin && (
+          <span>
+            <button onClick={() => router.push(`/articles/${article.id}/edit`)} className="flat-button">編集</button>
+            <button onClick={handleDelete} className="flat-button">削除</button>
+          </span>
+        )}
+        <Link href="/">
+          <button className="flat-button">ホームに戻る</button>
+        </Link>
+        <Link href="/articles">
+          <button className="flat-button">全ての作品に戻る</button>
+        </Link>
+      </footer>
     </div>
   );
 };

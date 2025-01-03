@@ -2,7 +2,7 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { supabase } from '../../../lib/supabaseClient';
 import { Article } from '../../../types/article';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 type Props = {
@@ -12,7 +12,22 @@ type Props = {
 const EditPage: NextPage<Props> = ({ article }) => {
   const router = useRouter();
   const [title, setTitle] = useState(article.title);
+  const [title_kana, setTitleKana] = useState(article.title_kana);
   const [content, setContent] = useState(article.content);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  // テキストエリアの高さを調整
+  const adjustTextareaHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto'; // 高さをリセット
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // 内容に応じた高さ
+    }
+  };
+
+  // 内容変更時に高さを調整
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [content]);
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +36,7 @@ const EditPage: NextPage<Props> = ({ article }) => {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ title, content }),
+        body: JSON.stringify({ title, title_kana, content }),
       });
       if (!res.ok) {
         const { error } = await res.json();
@@ -49,12 +64,21 @@ const EditPage: NextPage<Props> = ({ article }) => {
           required
         />
 
+        <label>タイトルの仮名</label>
+        <input
+          value={title_kana}
+          onChange={(e) => setTitleKana(e.target.value)}
+          required
+        />
+
         <label>本文</label>
         <textarea
-          rows={8}
+          ref={textareaRef}
+          rows={8} // 初期の最小行数
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
+          style={{ resize: 'none', overflow: 'hidden' }} // ユーザーによるサイズ変更を無効化
         />
         <button style={{ marginTop: '16px' }}>更新</button>
       </form>

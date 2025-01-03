@@ -1,12 +1,27 @@
 // pages/new.tsx
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 
 const NewArticlePage = () => {
   const router = useRouter();
   const [title, setTitle] = useState('');
+  const [title_kana, setTitleKana] = useState('');
   const [content, setContent] = useState('');
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  // テキストエリアの高さを調整
+  const adjustTextareaHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto'; // 高さをリセット
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // 内容に応じた高さ
+    }
+  };
+
+  // 内容変更時に高さを調整
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [content]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -14,7 +29,7 @@ const NewArticlePage = () => {
       const res = await fetch('/api/articles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, content }),
+        body: JSON.stringify({ title, title_kana, content }),
       });
       if (!res.ok) {
         throw new Error('Failed to create article');
@@ -40,13 +55,24 @@ const NewArticlePage = () => {
           required
         />
 
-        <label>詩の本文</label>
+        <label>タイトルの仮名</label>
+        <input
+          type="text"
+          placeholder="タイトルの読み仮名（ひらがな）"
+          value={title_kana}
+          onChange={(e) => setTitleKana(e.target.value)}
+          required
+        />
+
+        <label>本文</label>
         <textarea
+          ref={textareaRef}
           rows={8}
           placeholder="言葉を紡いでください"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
+          style={{ resize: 'none', overflow: 'hidden' }}
         />
 
         <button type="submit" style={{ marginTop: '16px' }}>

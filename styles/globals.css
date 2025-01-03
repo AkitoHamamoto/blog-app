@@ -168,7 +168,7 @@ h6 {
 /* 管理者ボタン */
 .admin-controls {
   text-align: center;
-  margin-bottom: 24px;
+  margin: 24px;
 }
 
 /* Buttons & Links  -------------------------------------------------- */
@@ -250,6 +250,59 @@ textarea {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* 全作品一覧 */
+.search-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.5em;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 0 auto 16px;
+  display: block;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* リスト形式の作品 */
+.articles-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.articles-list li {
+  padding: 0.6em 0;
+  border-bottom: 1px solid #eee;
+}
+
+.article-link {
+  font-size: 1rem;
+  color: #1a73e8;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.article-link:hover {
+  color: #0b5ed7;
+}
+
+/* 最新作品セクション */
+.latest-articles {
+  margin-top: 64px;
+}
+
+.latest-articles h3 {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 16px;
+  color: #3b3b3b;
+}
+
+.view-all {
+  text-align: center;
+  margin-top: 32px;
+}
+
 /* プロフィールセクション */
 .profile {
   text-align: center;
@@ -277,13 +330,19 @@ textarea {
   margin: 0;
 }
 
-/* 詩がない場合のメッセージ */
-.no-articles {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #888;
-  margin-top: 48px;
-  font-style: italic;
+.flat-button {
+  padding: 0.6em 1.5em;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #3b3b3b;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.flat-button:hover {
+  color: #1a73e8;
 }
 
 /* フッター */

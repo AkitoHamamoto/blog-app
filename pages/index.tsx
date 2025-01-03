@@ -1,6 +1,7 @@
 // pages/index.tsx
 import { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { supabase } from '../lib/supabaseClient';
 import { Article } from '../types/article';
 
@@ -18,32 +19,22 @@ const HomePage: NextPage<Props> = ({ articles, isAdmin }) => {
         <p>司馬透の部屋</p>
       </header>
 
-      {/* 詩を投稿するボタン */}
-      {/* {isAdmin && (
-        <div className="admin-controls">
-          <Link href="/new">
-            <button>詩を投稿する</button>
-          </Link>
-        </div>
-      )} */}
-
       {/* プロフィールセクション */}
       <section className="profile">
-        <img
-          src="/images/profile.jpeg"
+        <Image
+          src="/images/profile.jpeg" // srcをそのまま使用
           alt="作者のプロフィール画像"
-          className="profile-image"
+          width={150} // 適切な幅を指定
+          height={150} // 適切な高さを指定
+          className="profile-image" // CSSクラスはそのまま使用可能
         />
         <div className="profile-name">司馬 透</div>
-        <p className="profile-bio">心の声を言葉に紡ぎ出す詩人。</p>
+        <p className="profile-bio">忙しない世界の片隅で少し一息つきませんか。</p>
       </section>
 
-      {/* 作品一覧 */}
-      {articles.length === 0 ? (
-        <p className="no-articles">
-          「まだ詩が投稿されていません。あなたの物語を最初に書きませんか？」
-        </p>
-      ) : (
+      {/* 最新作品セクション */}
+      <section className="latest-articles">
+        <h3>最新作品</h3>
         <ul className="articles">
           {articles.map((article) => (
             <li key={article.id} className="article-card">
@@ -58,6 +49,20 @@ const HomePage: NextPage<Props> = ({ articles, isAdmin }) => {
             </li>
           ))}
         </ul>
+        <div className="view-all">
+          <Link href="/articles">
+            <button className="flat-button">全ての作品を見る</button>
+          </Link>
+        </div>
+      </section>
+
+      {/* 詩を投稿するボタン */}
+      {isAdmin && (
+        <div className="admin-controls">
+          <Link href="/new">
+            <button className="flat-button">詩を投稿する</button>
+          </Link>
+        </div>
       )}
 
       {/* フッター */}
