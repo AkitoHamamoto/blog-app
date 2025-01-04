@@ -55,7 +55,7 @@ const NewArticlePage = () => {
           required
         />
 
-        <label>タイトルの仮名</label>
+        <label>タイトルの読み仮名</label>
         <input
           type="text"
           placeholder="タイトルの読み仮名（ひらがな）"
@@ -68,16 +68,14 @@ const NewArticlePage = () => {
         <textarea
           ref={textareaRef}
           rows={8}
-          placeholder="言葉を紡いでください"
+          placeholder="本文"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
           style={{ resize: 'none', overflow: 'hidden' }}
         />
 
-        <button type="submit" style={{ marginTop: '16px' }}>
-          投稿する
-        </button>
+        <button type="submit" className="flat-button">投稿する</button>
       </form>
     </div>
   );
