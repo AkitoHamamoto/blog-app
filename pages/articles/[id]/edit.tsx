@@ -80,7 +80,9 @@ const EditPage: NextPage<Props> = ({ article }) => {
           required
           style={{ resize: 'none', overflow: 'hidden' }} // ユーザーによるサイズ変更を無効化
         />
-        <button style={{ marginTop: '16px' }}>更新</button>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
+          <button type="submit" className="flat-button">更新</button>
+        </div>
       </form>
     </div>
   );

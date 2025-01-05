@@ -44,7 +44,7 @@ const NewArticlePage = () => {
 
   return (
     <div className="container">
-      <h1>新しい詩を投稿</h1>
+      <h2>新しい詩を投稿</h2>
       <form onSubmit={handleSubmit} style={{ marginTop: '16px' }}>
         <label>タイトル</label>
         <input
@@ -75,7 +75,9 @@ const NewArticlePage = () => {
           style={{ resize: 'none', overflow: 'hidden' }}
         />
 
-        <button type="submit" className="flat-button">投稿する</button>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
+          <button type="submit" className="flat-button">投稿する</button>
+        </div>
       </form>
     </div>
   );
