@@ -4,6 +4,8 @@ import { supabase } from '../../../lib/supabaseClient';
 import { Article } from '../../../types/article';
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { Switch, FormControlLabel } from '@mui/material';
+
 
 type Props = {
   article: Article;
@@ -14,6 +16,7 @@ const EditPage: NextPage<Props> = ({ article }) => {
   const [title, setTitle] = useState(article.title);
   const [title_kana, setTitleKana] = useState(article.title_kana);
   const [content, setContent] = useState(article.content);
+  const [isPublic, setIsPublic] = useState<boolean>(article.is_public ?? true);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // テキストエリアの高さを調整
@@ -36,7 +39,7 @@ const EditPage: NextPage<Props> = ({ article }) => {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ title, title_kana, content }),
+        body: JSON.stringify({ title, title_kana, content, is_public: isPublic, }),
       });
       if (!res.ok) {
         const { error } = await res.json();
@@ -80,6 +83,20 @@ const EditPage: NextPage<Props> = ({ article }) => {
           required
           style={{ resize: 'none', overflow: 'hidden' }} // ユーザーによるサイズ変更を無効化
         />
+
+        <FormControlLabel
+          control={
+            <Switch
+              checked={isPublic}
+              onChange={(e) => setIsPublic(e.target.checked)}
+              color="primary"
+            />
+          }
+          label={isPublic ? '公開' : '非公開'}
+          style={{ marginTop: '16px' }}
+        />
+
+
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
           <button type="submit" className="flat-button">更新</button>
         </div>

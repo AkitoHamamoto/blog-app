@@ -74,14 +74,20 @@ const HomePage: NextPage<Props> = ({ articles, isAdmin }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const { data: articles, error } = await supabase
+  const token = req.cookies.adminToken;
+  const isAdmin = token === 'valid';
+
+  let query = supabase
     .from('articles')
-    .select('index_id, id, title, content, created_at, updated_at')
+    .select('index_id, id, title, content, created_at, updated_at, is_public')
     .order('created_at', { ascending: false })
     .limit(4);
 
-  const token = req.cookies.adminToken;
-  const isAdmin = token === 'valid';
+  if (!isAdmin) {
+    query = query.eq('is_public', true);
+  }
+
+  const { data: articles, error } = await query;
 
   if (error) {
     console.error(error);

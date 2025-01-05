@@ -37,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(403).json({ error: 'Forbidden' });
     }
 
-    const { title, title_kana, content } = req.body;
+    const { title, title_kana, content, is_public } = req.body;
     if (!title || !title_kana || !content) {
       return res.status(400).json({ error: 'title, title_kana, and content are required' });
     }
@@ -50,6 +50,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           title_kana,
           content,
           updated_at: new Date().toISOString(),
+          is_public: !!is_public,
         })
         .eq('id', id)
         .single();

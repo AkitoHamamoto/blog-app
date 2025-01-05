@@ -4,9 +4,9 @@ import { supabase } from '../../../lib/supabaseClient';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { title, title_kana, content } = req.body;
+    const { title, title_kana, content, is_public } = req.body;
 
-    if (!title || !title_kana || !content) {
+    if (!title || !title_kana || !content || !is_public) {
       return res.status(400).json({ error: 'title, title_kana, and content are required' });
     }
 
@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // INSERT実行
       const { data, error } = await supabase
         .from('articles')
-        .insert([{ title, title_kana, content }]) // id, index_id, created_at, updated_atは自動
+        .insert([{ title, title_kana, content, is_public, }]) // id, index_id, created_at, updated_atは自動
         .single();
 
       if (error) throw error;

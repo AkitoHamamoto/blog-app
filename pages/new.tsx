@@ -2,12 +2,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
+import { Switch, FormControlLabel } from '@mui/material';
 
 const NewArticlePage = () => {
   const router = useRouter();
   const [title, setTitle] = useState('');
   const [title_kana, setTitleKana] = useState('');
   const [content, setContent] = useState('');
+  const [isPublic, setIsPublic] = useState(true);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // テキストエリアの高さを調整
@@ -29,7 +31,7 @@ const NewArticlePage = () => {
       const res = await fetch('/api/articles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, title_kana, content }),
+        body: JSON.stringify({ title, title_kana, content, is_public: isPublic }),
       });
       if (!res.ok) {
         throw new Error('Failed to create article');
@@ -73,6 +75,18 @@ const NewArticlePage = () => {
           onChange={(e) => setContent(e.target.value)}
           required
           style={{ resize: 'none', overflow: 'hidden' }}
+        />
+
+        <FormControlLabel
+          control={
+            <Switch
+              checked={isPublic}
+              onChange={(e) => setIsPublic(e.target.checked)}
+              color="primary"
+            />
+          }
+          label={isPublic ? '公開' : '非公開'}
+          style={{ marginTop: '16px' }}
         />
 
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>

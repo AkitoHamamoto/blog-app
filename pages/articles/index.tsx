@@ -41,10 +41,19 @@ const ArticlesPage: NextPage<Props> = ({ articles }) => {
       ) : (
         <ul className="articles-list">
           {filteredArticles.map((article) => (
-            <li key={article.id}>
+            <li key={article.id} className="article-item">
               <Link href={`/articles/${article.id}`}>
                 {article.title}
               </Link>
+              {!article.is_public && (
+                <span
+                  className="material-icons lock-icon"
+                  title="非公開"
+                  aria-label="非公開"
+                >
+                  lock
+                </span>
+              )}
             </li>
           ))}
         </ul>
@@ -55,15 +64,37 @@ const ArticlesPage: NextPage<Props> = ({ articles }) => {
           <button className="flat-button">ホームに戻る</button>
         </Link>
       </footer>
+
+      <style jsx>{`
+        .article-item {
+          display: flex;
+          align-items: center; /* 高さを中央揃え */
+          margin-bottom: 8px;
+        }
+        .lock-icon {
+          margin-left: 8px;
+          color: gray;
+          font-size: 20px;
+        }
+      `}</style>
     </div>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const { data: articles, error } = await supabase
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const token = req.cookies.adminToken;
+  const isAdmin = token === 'valid';
+
+  let query = supabase
     .from('articles')
-    .select('id, title, title_kana, created_at')
+    .select('id, title, title_kana, created_at, is_public')
     .order('created_at', { ascending: false });
+
+  if (!isAdmin) {
+    query = query.eq('is_public', true);
+  }
+
+  const { data: articles, error } = await query;
 
   if (error) {
     console.error(error);
@@ -72,5 +103,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   return { props: { articles: articles ?? [] } };
 };
+
 
 export default ArticlesPage;
