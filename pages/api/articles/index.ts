@@ -6,7 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'POST') {
     const { title, title_kana, content, is_public } = req.body;
 
-    if (!title || !title_kana || !content || !is_public) {
+    if (!title || !title_kana || !content) {
       return res.status(400).json({ error: 'title, title_kana, and content are required' });
     }
 

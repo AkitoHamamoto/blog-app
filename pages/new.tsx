@@ -9,7 +9,7 @@ const NewArticlePage = () => {
   const [title, setTitle] = useState('');
   const [title_kana, setTitleKana] = useState('');
   const [content, setContent] = useState('');
-  const [isPublic, setIsPublic] = useState(true);
+  const [is_public, setIsPublic] = useState(true);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // テキストエリアの高さを調整
@@ -31,7 +31,7 @@ const NewArticlePage = () => {
       const res = await fetch('/api/articles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, title_kana, content, is_public: isPublic }),
+        body: JSON.stringify({ title, title_kana, content, is_public }),
       });
       if (!res.ok) {
         throw new Error('Failed to create article');
@@ -80,12 +80,12 @@ const NewArticlePage = () => {
         <FormControlLabel
           control={
             <Switch
-              checked={isPublic}
+              checked={is_public}
               onChange={(e) => setIsPublic(e.target.checked)}
               color="primary"
             />
           }
-          label={isPublic ? '公開' : '非公開'}
+          label={is_public ? '公開' : '非公開'}
           style={{ marginTop: '16px' }}
         />
 
