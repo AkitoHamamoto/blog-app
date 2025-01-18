@@ -10,6 +10,7 @@ const NewArticlePage = () => {
   const [title_kana, setTitleKana] = useState('');
   const [content, setContent] = useState('');
   const [is_public, setIsPublic] = useState(true);
+  const [music, setMusic] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // テキストエリアの高さを調整
@@ -31,7 +32,7 @@ const NewArticlePage = () => {
       const res = await fetch('/api/articles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, title_kana, content, is_public }),
+        body: JSON.stringify({ title, title_kana, content, music, is_public }),
       });
       if (!res.ok) {
         throw new Error('Failed to create article');
@@ -75,6 +76,14 @@ const NewArticlePage = () => {
           onChange={(e) => setContent(e.target.value)}
           required
           style={{ resize: 'none', overflow: 'hidden' }}
+        />
+
+        <label>音楽名</label>
+        <input
+          type="text"
+          placeholder="音楽名"
+          value={music}
+          onChange={(e) => setMusic(e.target.value)}
         />
 
         <FormControlLabel

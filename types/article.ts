@@ -5,6 +5,7 @@ export type Article = {
   title: string;         // タイトル
   title_kana: string;    // タイトル（仮名）
   content: string;       // 内容
+  music?: string;        // 音楽名 (任意)
   created_at: string;    // 作成日時
   updated_at: string;    // 更新日時
   is_public: boolean;    // 公開・非公開

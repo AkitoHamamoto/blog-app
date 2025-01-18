@@ -16,6 +16,7 @@ const EditPage: NextPage<Props> = ({ article }) => {
   const [title, setTitle] = useState(article.title);
   const [title_kana, setTitleKana] = useState(article.title_kana);
   const [content, setContent] = useState(article.content);
+  const [music, setMusic] = useState(article.music || '');
   const [isPublic, setIsPublic] = useState<boolean>(article.is_public ?? true);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -39,7 +40,7 @@ const EditPage: NextPage<Props> = ({ article }) => {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ title, title_kana, content, is_public: isPublic, }),
+        body: JSON.stringify({ title, title_kana, content, music, is_public: isPublic, }),
       });
       if (!res.ok) {
         const { error } = await res.json();
@@ -82,6 +83,13 @@ const EditPage: NextPage<Props> = ({ article }) => {
           onChange={(e) => setContent(e.target.value)}
           required
           style={{ resize: 'none', overflow: 'hidden' }} // ユーザーによるサイズ変更を無効化
+        />
+
+        <label>音楽名</label>
+        <input
+          type="text"
+          value={music}
+          onChange={(e) => setMusic(e.target.value)}
         />
 
         <FormControlLabel

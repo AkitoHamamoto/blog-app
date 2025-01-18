@@ -50,6 +50,12 @@ const ArticleDetailPage: NextPage<Props> = ({ article, isAdmin }) => {
       </div>
       <div className="poem-content">{article.content}</div>
 
+      {article.music && isAdmin && (
+        <div style={{ marginTop: '16px' }}>
+          <strong>音楽名:</strong> {article.music}
+        </div>
+      )}
+
       <footer className="footer">
         {/* 管理者だけ編集・削除ボタン表示 */}
         {isAdmin && (
@@ -76,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req }) =>
 
   const { data, error } = await supabase
     .from('articles')
-    .select('id, title, content, created_at, updated_at, is_public')
+    .select('id, title, content, music, created_at, updated_at, is_public')
     .eq('id', id)
     .single();
 
