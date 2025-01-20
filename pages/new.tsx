@@ -11,6 +11,7 @@ const NewArticlePage = () => {
   const [content, setContent] = useState('');
   const [is_public, setIsPublic] = useState(true);
   const [music, setMusic] = useState('');
+  const [contentLength, setContentLength] = useState(0); // 文字数管理用
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // テキストエリアの高さを調整
@@ -24,6 +25,9 @@ const NewArticlePage = () => {
   // 内容変更時に高さを調整
   useEffect(() => {
     adjustTextareaHeight();
+    // 改行を文字数に含めない文字数カウント
+    const trimmedContent = content.replace(/\n/g, '');
+    setContentLength(trimmedContent.length);
   }, [content]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -68,15 +72,22 @@ const NewArticlePage = () => {
         />
 
         <label>本文</label>
-        <textarea
-          ref={textareaRef}
-          rows={8}
-          placeholder="本文"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          required
-          style={{ resize: 'none', overflow: 'hidden' }}
-        />
+        <div style={{ position: 'relative' }}>
+          <textarea
+            ref={textareaRef}
+            rows={8}
+            placeholder="本文"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            required
+            style={{
+              resize: 'none',
+              overflow: 'hidden',
+              paddingBottom: '24px', // 文字数表示分のスペースを確保
+            }}
+          />
+          <div className="char-count">{contentLength}文字</div>
+        </div>
 
         <label>音楽名</label>
         <input

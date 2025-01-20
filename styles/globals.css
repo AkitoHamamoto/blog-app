@@ -211,6 +211,16 @@ textarea {
   color: #333; */
 }
 
+/* テキストエリア内の右下に文字数を表示 */
+.char-count {
+  position: absolute;
+  bottom: 14px;
+  right: 8px;
+  font-size: 1rem;
+  color: #666;
+  pointer-events: none;
+}
+
 /* Additional spacing  ------------------------------------------------ */
 .mb-16 {
   margin-bottom: 16px;

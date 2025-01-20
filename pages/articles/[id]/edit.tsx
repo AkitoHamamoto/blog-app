@@ -18,6 +18,7 @@ const EditPage: NextPage<Props> = ({ article }) => {
   const [content, setContent] = useState(article.content);
   const [music, setMusic] = useState(article.music || '');
   const [isPublic, setIsPublic] = useState<boolean>(article.is_public ?? true);
+  const [contentLength, setContentLength] = useState(0); // 文字数管理用
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // テキストエリアの高さを調整
@@ -31,6 +32,9 @@ const EditPage: NextPage<Props> = ({ article }) => {
   // 内容変更時に高さを調整
   useEffect(() => {
     adjustTextareaHeight();
+    // 改行を除いた文字数をカウント
+    const trimmedContent = content.replace(/\n/g, '');
+    setContentLength(trimmedContent.length);
   }, [content]);
 
   const handleUpdate = async (e: React.FormEvent) => {
@@ -76,14 +80,21 @@ const EditPage: NextPage<Props> = ({ article }) => {
         />
 
         <label>本文</label>
-        <textarea
-          ref={textareaRef}
-          rows={8} // 初期の最小行数
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          required
-          style={{ resize: 'none', overflow: 'hidden' }} // ユーザーによるサイズ変更を無効化
-        />
+        <div style={{ position: 'relative' }}>
+          <textarea
+            ref={textareaRef}
+            rows={8} // 初期の最小行数
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            required
+            style={{
+              resize: 'none',
+              overflow: 'hidden',
+              paddingBottom: '24px', // 文字数表示用のスペースを確保
+            }}
+          />
+          <div className="char-count">{contentLength}文字</div>
+        </div>
 
         <label>音楽名</label>
         <input
