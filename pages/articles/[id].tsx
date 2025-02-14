@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabaseClient';
 import { Article } from '../../types/article';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 type Props = {
   article: Article | null;
@@ -12,6 +13,26 @@ type Props = {
 
 const ArticleDetailPage: NextPage<Props> = ({ article, isAdmin }) => {
   const router = useRouter();
+
+  // 'horizontal'（横書き）または 'vertical'（縦書き）を管理する state
+  const [writingMode, setWritingMode] = useState<'horizontal' | 'vertical'>('horizontal');
+
+  // コンポーネントマウント時にローカルストレージから設定を読み込む
+  useEffect(() => {
+    const storedMode = localStorage.getItem('writingMode');
+    if (storedMode === 'vertical' || storedMode === 'horizontal') {
+      setWritingMode(storedMode);
+    }
+  }, []);
+
+  // トグルボタン押下時にモードを切り替え、ローカルストレージに保存
+  const toggleWritingMode = () => {
+    setWritingMode((prevMode) => {
+      const newMode = prevMode === 'horizontal' ? 'vertical' : 'horizontal';
+      localStorage.setItem('writingMode', newMode);
+      return newMode;
+    });
+  };
 
   if (!article) {
     return <div className="container">詩が見つかりませんでした。</div>;
@@ -41,14 +62,37 @@ const ArticleDetailPage: NextPage<Props> = ({ article, isAdmin }) => {
   };
 
   return (
-    <div className="container">
-      <h1 style={{ marginBottom: '8px' }}>{article.title}</h1>
-      <div style={{ fontSize: '0.9rem', color: '#666', marginBottom: '16px' }}>
-        {new Date(article.created_at).toLocaleString('ja-JP', {
-          timeZone: 'Asia/Tokyo',
-        })}
-      </div>
-      <div className="poem-content">{article.content}</div>
+    <div className={writingMode === 'vertical' ? 'container-vertical' : 'container'}>
+      {writingMode === 'vertical' ? (
+        // 縦書きの場合は、右端にタイトル、中央に本文、左端に投稿日時の順で配置
+        <div className="vertical-container">
+          <div className="vertical-wrapper">
+            {/* DOM順：タイトル、投稿日時、本文、 → row-reverse で表示順は【タイトル】→【本文】→【投稿日時】 */}
+            <div className="vertical-title">
+              {article.title}
+            </div>
+            <div className="vertical-date">
+              {new Date(article.created_at).toLocaleString('ja-JP', {
+                timeZone: 'Asia/Tokyo',
+              })}
+            </div>
+            <div className="vertical-poem-content">
+              {article.content}
+            </div>
+          </div>
+        </div>
+      ) : (
+        // 横書きの場合はこれまで通り
+        <>
+          <h1 style={{ marginBottom: '8px' }}>{article.title}</h1>
+          <div style={{ fontSize: '0.9rem', color: '#666', marginBottom: '16px' }}>
+            {new Date(article.created_at).toLocaleString('ja-JP', {
+              timeZone: 'Asia/Tokyo',
+            })}
+          </div>
+          <div className="poem-content">{article.content}</div>
+        </>
+      )}
 
       {article.music && isAdmin && (
         <div style={{ marginTop: '16px' }}>
@@ -60,10 +104,21 @@ const ArticleDetailPage: NextPage<Props> = ({ article, isAdmin }) => {
         {/* 管理者だけ編集・削除ボタン表示 */}
         {isAdmin && (
           <span>
-            <button onClick={() => router.push(`/articles/${article.id}/edit`)} className="flat-button">編集</button>
-            <button onClick={handleDelete} className="flat-button">削除</button>
+            <button
+              onClick={() => router.push(`/articles/${article.id}/edit`)}
+              className="flat-button"
+            >
+              編集
+            </button>
+            <button onClick={handleDelete} className="flat-button">
+              削除
+            </button>
           </span>
         )}
+        {/* 表示モード切り替えボタン */}
+        <button onClick={toggleWritingMode} className="flat-button">
+          {writingMode === 'horizontal' ? '縦書き表示' : '横書き表示'}
+        </button>
         <Link href="/">
           <button className="flat-button">ホームに戻る</button>
         </Link>

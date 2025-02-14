@@ -133,6 +133,12 @@ body {
   padding: 24px;
 }
 
+.container-vertical {
+  max-width: 80%;
+  margin: 0 auto;
+  padding: 24px;
+}
+
 /* Headings  -------------------------------------------------- */
 h1,
 h2,
@@ -365,4 +371,60 @@ textarea {
   margin-top: 48px;
   font-size: 0.9rem;
   color: #888;
+}
+
+
+/* 縦書き用コンテナ */
+.vertical-container {
+  /* 必要に応じて高さや余白を調整 */
+  margin-top: 10%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* DOM順：投稿日時、本文、タイトル の順で記述するので、
+   row-reverse で表示順が【タイトル】→【本文】→【投稿日時】 となる */
+.vertical-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  overflow-x: auto;
+  gap: 16px;
+}
+
+/* 各縦書き要素の共通設定 */
+.vertical-title,
+.vertical-poem-content,
+.vertical-date {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  padding: 8px;
+  /* 背景や境界線を付ける場合はここで設定可能 */
+}
+
+/* タイトル：右端に配置（狭めの幅で中央寄せ） */
+.vertical-title {
+  width: 3em;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  /* タイトルらしく余白や色の調整を追加可 */
+}
+
+/* 投稿日時：本文の左隣に配置（狭めの幅で中央寄せ） */
+.vertical-date {
+  width: 3em;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* 本文：可変幅で表示 */
+.vertical-poem-content {
+  flex: 1;
+  white-space: pre-wrap;
+  font-family: 'Zen Maru Gothic', serif;
+  font-size: 1.125rem;
+  line-height: 1.8;
 }
